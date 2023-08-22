@@ -123,12 +123,34 @@ const SettingsPage = () => {
       });
   };
   const handleEmailVerification = () => {
-    // Simulate email verification logic
-    setEmailVerified(true);
+    toast({
+      title: "Sending email!",
+    });
+    
+    const resend_email_url = "https://vrec.onrender.com/api/generate-new-code";
+    fetch(resend_email_url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    }).then((response) => {
+      if (response.ok) {
+        toast({
+          title: "Email sent!",
+          description: "You should recieve your email shortly",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+      } else {
+        console.error("Failed to update name.");
+      }
+    });
   };
 
   const handleSubmiNameChange = () => {
-    const change_name_url = "https://vrec.onrender.com/api/user-profile/update/";
+    const change_name_url =
+      "https://vrec.onrender.com/api/user-profile/update/";
     const data = {
       name: newName,
       email: email,
@@ -178,7 +200,8 @@ const SettingsPage = () => {
   };
 
   const handleSubmitEmailChange = () => {
-    const change_name_url = "https://vrec.onrender.com/api/user-profile/update/";
+    const change_name_url =
+      "https://vrec.onrender.com/api/user-profile/update/";
     const data = {
       name: name,
       email: newEmail,
@@ -335,7 +358,10 @@ const SettingsPage = () => {
                   </Badge>
                 ) : (
                   <Badge colorScheme="red" m={2} p={1} borderRadius={4}>
-                    Not Verified
+                    Not Verified,{" "}
+                    <a href onClick={handleEmailVerification}>
+                      <u>Verify now, click here</u>
+                    </a>
                   </Badge>
                 )}
               </FormControl>
