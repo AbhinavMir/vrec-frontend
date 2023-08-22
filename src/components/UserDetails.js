@@ -5,7 +5,7 @@ const UserDetails = ({ accessToken }) => {
 
   useEffect(() => {
     const fetchUserDetails = async () => {
-      const response = await fetch('https://vrec.onrender.com/api/user-details/', {
+      const response = await fetch('https://vrec.onrender.com/api/userdetails/', {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

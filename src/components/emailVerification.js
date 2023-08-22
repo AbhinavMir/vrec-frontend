@@ -1,70 +1,63 @@
-import { useState, useEffect } from "react";
-import { Button, Box, Icon } from "@chakra-ui/react";
-import { FaCheck, FaTimes } from "react-icons/fa";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useHistory from react-router-dom
+import { Button, Box, Heading } from "@chakra-ui/react";
 
 const VerificationComponent = () => {
-  const [isVerified, setIsVerified] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [code, setCode] = useState("");
+  const [inputValue, setInputValue] = useState("");
+  const navigate = useNavigate(); // Get the navigate object from react-router-dom
 
-  const handleBack = () => {
-    window.history.back();
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
   };
 
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const codeParam = urlParams.get("code");
-    if (codeParam) {
-      setCode(codeParam);
+  const handleSubmit = async () => {
+    const accessToken = localStorage.getItem("accessToken");
+
+    if (!accessToken) {
+      console.error("Access token not found.");
+      return;
     }
-  }, []);
 
-  const verifyCode = async () => {
-    setIsLoading(true);
-
-    try {
-      const response = await fetch(
-        `https://thoughtforest.xyz/api/verify/?code=${code}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        }
-      );
+    fetch(`https://vrec.onrender.com/api/verify`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        X_VERIFICATION_CODE: inputValue,
+      },
+    }).then((response) => {
       if (response.ok) {
-        setIsVerified(true);
+        navigate("/dashboard");
       }
-    } catch (error) {
-      console.error("Error verifying code:", error);
-    }
-
-    setIsLoading(false);
+    });
   };
 
-  return (
-    <Box textAlign="center" marginTop="4">
-      <Button onClick={handleBack} mb={4}>
-        Back
-      </Button>
+  const handleHomeClick = () => {
+    navigate("/"); // Redirect to the home page
+  };
 
-      {isVerified ? (
-        <Icon as={FaCheck} boxSize="8" color="green.500" />
-      ) : (
-        <Button
-          onClick={verifyCode}
-          colorScheme="blue"
-          isLoading={isLoading}
-          loadingText="Verifying"
-          disabled={!code}
-        >
-          Verify Code
+  // Render the component
+  return (
+    <div>
+      <Box p={4} bg="gray.200">
+        <Heading as="h1" size="lg">
+          Verification Component
+        </Heading>
+        <Button onClick={handleHomeClick} mt={2} colorScheme="blue">
+          Home
         </Button>
-      )}
-      {isVerified ? null : isLoading ? null : (
-        <Icon as={FaTimes} boxSize="8" color="red.500" marginTop="2" />
-      )}
-    </Box>
+      </Box>
+      <Box p={4}>
+        <input
+          type="text"
+          placeholder="Enter verification code"
+          value={inputValue}
+          onChange={handleInputChange}
+        />
+        <Button onClick={handleSubmit} mt={2} colorScheme="green">
+          Submit
+        </Button>
+      </Box>
+    </div>
   );
 };
 

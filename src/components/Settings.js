@@ -126,7 +126,7 @@ const SettingsPage = () => {
     toast({
       title: "Sending email!",
     });
-    
+
     const resend_email_url = "https://vrec.onrender.com/api/generate-new-code";
     fetch(resend_email_url, {
       method: "GET",
@@ -143,7 +143,7 @@ const SettingsPage = () => {
           isClosable: true,
         });
       } else {
-        console.error("Failed to update name.");
+        console.error("Sending email failed.");
       }
     });
   };

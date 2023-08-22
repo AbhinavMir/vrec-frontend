@@ -60,10 +60,16 @@ const Dashboard = () => {
       clearInterval(intervalId); // Clear the interval when the component unmounts
     };
   }, []);
-
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
+        toast ({
+          title: "Loading user details...",
+          status: "info",
+          duration: 1500,
+          isClosable: true,
+        });
+        
         const response = await fetch(
           "https://vrec.onrender.com/api/user-details/",
           {
@@ -115,23 +121,8 @@ const Dashboard = () => {
       fetchUserDetails();
     }
 
-    // Check if userDetails.is_email_verified after 10 seconds
-    if (userDetails?.is_email_verified) {
-      const emailVerifiedTimeout = setTimeout(() => {
-        toast({
-          title: "Please verify your email!",
-          description: "We have sent you an email with a verification link.",
-          status: "warning",
-          duration: 1500,
-          isClosable: true,
-        });
-      }, 10000);
+}, [accessToken]);  // Updated dependency array
 
-      return () => {
-        clearTimeout(emailVerifiedTimeout);
-      };
-    }
-  }, [accessToken, userDetails]);
 
   useEffect(() => {
     // Check if userDetails.name is null and clear cookie if needed
