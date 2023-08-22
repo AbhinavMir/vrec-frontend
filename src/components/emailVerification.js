@@ -24,7 +24,7 @@ const VerificationComponent = () => {
 
     try {
       const response = await fetch(
-        `https://vrec.onrender.com/api/verify/?code=${code}`,
+        `https://thoughtforest.xyz/api/verify/?code=${code}`,
         {
           method: "GET",
           headers: {
