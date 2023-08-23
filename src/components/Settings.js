@@ -18,6 +18,7 @@ import {
   Avatar,
   Stack,
 } from "@chakra-ui/react";
+import VerifyModal from "./VerifyModal";
 
 const SettingsPage = () => {
   const [name, setName] = useState("");
@@ -357,12 +358,7 @@ const SettingsPage = () => {
                     Verified
                   </Badge>
                 ) : (
-                  <Badge colorScheme="red" m={2} p={1} borderRadius={4}>
-                    Not Verified,{" "}
-                    <a href onClick={handleEmailVerification}>
-                      <u>Verify now, click here</u>
-                    </a>
-                  </Badge>
+                  <VerifyModal/>
                 )}
               </FormControl>
             )}
