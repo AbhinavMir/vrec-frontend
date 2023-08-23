@@ -11,11 +11,50 @@ import {
   ModalCloseButton,
   useDisclosure,
   Input,
+  useToast,
 } from "@chakra-ui/react";
 
 const VerifyModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [verificationCode, setVerificationCode] = useState("");
+  const toast = useToast();
+
+  const handleResendCode = () => {
+    const token = localStorage.getItem("accessToken");
+    const url = "https://vrec.onrender.com/api/generate-new-code";
+
+    axios
+      .post(
+        url,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        // Handle successful verification response
+        toast({
+          title: "Code sent!",
+          description: "Please check your inbox.",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+      })
+      .catch((error) => {
+        // Handle verification error
+        toast({
+          title: "Code not sent!",
+          description: "Please try again.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        console.error("Code not sent:", error);
+      });
+  };
 
   const handleVerify = () => {
     const token = localStorage.getItem("accessToken");
@@ -32,13 +71,28 @@ const VerifyModal = () => {
           },
         }
       )
-      .then(response => {
+      .then((response) => {
         // Handle successful verification response
+        toast({
+          title: "Verification successful!",
+          description: "Your email has been verified.",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
         console.log("Verification successful!", response.data);
         onClose(); // Close the modal after successful verification
+        window.location.reload(); // Reload the page
       })
-      .catch(error => {
+      .catch((error) => {
         // Handle verification error
+        toast({
+          title: "Verification error!",
+          description: "Please try again.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
         console.error("Verification error:", error);
       });
   };
@@ -60,7 +114,7 @@ const VerifyModal = () => {
             <Input
               placeholder="Enter code here"
               value={verificationCode}
-              onChange={e => setVerificationCode(e.target.value)}
+              onChange={(e) => setVerificationCode(e.target.value)}
             />
           </ModalBody>
 
@@ -68,7 +122,9 @@ const VerifyModal = () => {
             <Button variant="ghost" onClick={onClose}>
               Close
             </Button>
-            <Button colorScheme="teal">Resend code</Button>
+            <Button colorScheme="teal" onClick={handleResendCode}>
+              Resend code
+            </Button>
             <Button colorScheme="blue" ml={3} onClick={handleVerify}>
               Verify
             </Button>
@@ -81,4 +137,4 @@ const VerifyModal = () => {
 
 export default VerifyModal;
 
-// 
+//
