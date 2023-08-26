@@ -51,7 +51,13 @@ const LandingPage = () => {
         Sign In / Sign Up
       </Button>
       <br></br>
-      Reach out to me @ me@abhinavmir.xyz for an early (and free) invite!
+      Reach out to me @ me at abhinavmir dot xyz for an early (and free) invite!
+      <Box>
+
+      <br></br>
+      <b>DevLog v0.0.1: </b>
+    There are some missing elements, for example your notes are currently not encrypted. I'm working on it!<br></br> I'm also drawing up a privacy and TnC agreement for the app. The mobile app is coming soon too! This landing page needs <br></br>some work, sure.  Oh, I'm also fixing the login duration, right now it logs you out when you leave the current session - <br></br>that is not good UX. Once I've fixed that, I'll get you social logins + magic link. The voice recognition is horrible right now, it <br></br> will be better on mobile. Thanks for being one of the first users of ThoughtForest :) <br></br>
+      </Box>
     </Box>
   );
 };
