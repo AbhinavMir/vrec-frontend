@@ -51,11 +51,7 @@ const LandingPage = () => {
         Sign In / Sign Up
       </Button>
       <br></br>
-      Reach out to the{" "}
-      <Text as="u">
-        <a href="https://twitter.com/augustradjoe">founder</a>{" "}
-      </Text>
-      for an early (and free) invite!
+      Reach out to me @ me@abhinavmir.xyz for an early (and free) invite!
     </Box>
   );
 };
