@@ -1,5 +1,15 @@
 import { useState, useEffect } from "react";
-import { Box, Button, Text } from "@chakra-ui/react"; // Import necessary components
+import {
+  Box,
+  Button,
+  Text,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+} from "@chakra-ui/react"; // Import necessary components
 import LoginOrSignUp from "./LoginOrSignup";
 import icon from "../res/icon.png";
 import TextTransition, { presets } from "react-text-transition";
@@ -8,6 +18,7 @@ import { MdSearch } from "react-icons/md";
 const TEXTS = [" thoughts", " ideas", " feelings", " todos"];
 
 const LandingPage = () => {
+  const [isDevLogOpen, setIsDevLogOpen] = useState(false);
   const [index, setIndex] = useState(0);
   const [showLogin, setShowLogin] = useState(false);
   useEffect(() => {
@@ -73,7 +84,35 @@ const LandingPage = () => {
       >
         Sign In / Sign Up
       </Button>
-      {/* The rest of your content */}
+      <Button
+        colorScheme="black"
+        backdropBlur={5}
+        size="lg"
+        marginTop="2rem"
+        onClick={() => setIsDevLogOpen(true)} // Open the modal
+        // ... existing button styles
+      >
+        Devlogs
+      </Button>
+      <Modal isOpen={isDevLogOpen} onClose={() => setIsDevLogOpen(false)} backdropBlur={500} opacity={0.9}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>DevLog v0.0.1</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody p="2rem">
+            There are some missing elements, for example your notes are
+            currently not encrypted. I'm working on it! I'm also drawing up a
+            privacy and TnC agreement for the app. The mobile app is coming soon
+            too! This landing page needs some work, sure. Oh, I'm also fixing
+            the login duration, right now it logs you out when you leave the
+            current session - that is not good UX. Once I've fixed that, I'll
+            get you social logins + magic link. The voice recognition is
+            horrible right now, it will be better on mobile. Thanks for being
+            one of the first users of ThoughtForest :)
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 };
