@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import Dashboard from "./components/Dashboard";
 import LoginOrSignUp from "./components/LoginOrSignup";
 import Notes from "./components/Notes";
@@ -12,7 +12,10 @@ import Stripe from "./components/Stripe";
 import LandingPage from "./components/LandingPage";
 import SettingsPage from "./components/Settings";
 import VerificationComponent from "./components/emailVerification";
-
+import { theme as saasTheme } from "@saas-ui/theme-glass"; // Import the theme from the package
+const customTheme = extendTheme({
+  ...saasTheme,
+});
 function App() {
   const [isValidToken, setIsValidToken] = useState(false);
 

@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button, Text } from "@chakra-ui/react"; // Import necessary components
 import LoginOrSignUp from "./LoginOrSignup";
 import icon from "../res/icon.png";
 import TextTransition, { presets } from "react-text-transition";
-import { Flex, Text } from "@chakra-ui/react";
 import { MdSearch } from "react-icons/md";
-import Paypal from "./Paypal";
+
 const TEXTS = [" thoughts", " ideas", " feelings", " todos"];
 
 const LandingPage = () => {
@@ -18,17 +17,21 @@ const LandingPage = () => {
     );
     return () => clearTimeout(intervalId);
   }, []);
+
   if (showLogin) {
     return <LoginOrSignUp />;
   }
-  return (
 
+  return (
     <Box
       display="flex"
       alignItems="center"
       justifyContent="center"
-      height="50vh"
+      height="100vh" // Adjust the height
       flexDirection="column"
+      background="linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%), url('/path/to/your/background.jpg') center/cover no-repeat" // Apply the background
+      color="white" // Adjust text color
+      padding="2rem" // Add padding
     >
       <img
         src={icon}
@@ -37,27 +40,40 @@ const LandingPage = () => {
         width="100px"
         height="100px"
       />
-      <Text as="i">
-        <Text as="u">
-          <Text as="b">ThoughtForest</Text>
+      <Text as="i" fontSize="xl">
+        <Text as="u" fontSize="lg">
+          <Text as="b" fontSize="2xl">
+            ThoughtForest
+          </Text>
         </Text>
       </Text>
       Journal your
-      <TextTransition springConfig={presets.wobbly}>
+      <TextTransition springConfig={presets.wobbly} fontSize="xl">
         {TEXTS[index % TEXTS.length]}
       </TextTransition>
-      <br></br>
-      <Button colorScheme="teal" onClick={() => setShowLogin(true)}>
+      <Button
+        colorScheme="teal"
+        size="lg"
+        marginTop="2rem"
+        onClick={() => setShowLogin(true)}
+        style={{
+          background: "rgba(255, 255, 255, 0.15)", // Background color and opacity
+          color: "#d6d6d6", // Text color
+          backdropFilter: "blur(5px)", // Backdrop blur for the glass effect
+          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", // Subtle shadow
+          border: "none", // Remove border
+          transition:
+            "transform 0.2s ease, backdrop-filter 0.2s ease, box-shadow 0.2s ease", // Transitions
+          _hover: {
+            transform: "scale(2)", // Enlarge on hover
+            backdropFilter: "blur(100px)", // Increase blur on hover
+            boxShadow: "0 6px 10px rgba(1,1,1,1)", // Adjust hover shadow
+          },
+        }}
+      >
         Sign In / Sign Up
       </Button>
-      <br></br>
-      Reach out to me @ me at abhinavmir dot xyz for an early (and free) invite!
-      <Box>
-
-      <br></br>
-      <b>DevLog v0.0.1: </b>
-    There are some missing elements, for example your notes are currently not encrypted. I'm working on it!<br></br> I'm also drawing up a privacy and TnC agreement for the app. The mobile app is coming soon too! This landing page needs <br></br>some work, sure.  Oh, I'm also fixing the login duration, right now it logs you out when you leave the current session - <br></br>that is not good UX. Once I've fixed that, I'll get you social logins + magic link. The voice recognition is horrible right now, it <br></br> will be better on mobile. Thanks for being one of the first users of ThoughtForest :) <br></br>
-      </Box>
+      {/* The rest of your content */}
     </Box>
   );
 };
